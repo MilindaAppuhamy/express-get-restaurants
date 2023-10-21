@@ -17,28 +17,31 @@ app.get("/restaurants/:id", async (req, res) => {
 });
 
 app.post("/restaurants", async (req, res) => {
-  const newRestaurant = await Restaurant.create({
+  await Restaurant.create({
     name: req.body.name,
     location: req.body.location,
     cuisine: req.body.cuisine,
   });
-  res.json(newRestaurant);
+  const restaurants = await Restaurant.findAll();
+  res.json(restaurants);
 });
 
 app.put("/restaurants/:id", async (req, res) => {
   const restaurant = await Restaurant.findByPk(req.params.id);
-  const updatedRestuarant = await restaurant.update({
+  await restaurant.update({
     name: req.body.name,
     location: req.body.location,
     cuisine: req.body.cuisine,
   });
-  res.json(updatedRestuarant);
+  const restaurants = await Restaurant.findAll();
+  res.json(restaurants);
 });
 
 app.delete("/restaurants/:id", async (req, res) => {
   const restaurant = await Restaurant.findByPk(req.params.id);
-  const deletedRestuarant = await restaurant.destroy();
-  res.json(deletedRestuarant);
+  await restaurant.destroy();
+  const restaurants = await Restaurant.findAll();
+  res.json(restaurants);
 });
 
 module.exports = app;
