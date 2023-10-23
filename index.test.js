@@ -38,6 +38,18 @@ describe("restaurant endpoints", () => {
     expect(res.body[3].name).toBe("Bella-Vita");
   });
 
+  it("should return am error if the POST request is sent with empty values", async () => {
+    const newRestaurant = {
+      name: "",
+      location: "",
+      cuisine: "Italian",
+    };
+    const res = await request(app).post("/restaurants").send(newRestaurant);
+
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.error.length).toBe(2);
+  });
+
   it("should update a restuarant when PUT method is called", async () => {
     const updatedRestaurant = {
       name: "BellaVita",
